@@ -1,0 +1,29 @@
+{
+  "name": "restaurants",
+  "version": "0.1.0",
+  "description": "system for managing restaurant orders",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IvoDD/restaurants.git"
+  },
+  "author": "Ivo Dilov",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/IvoDD/restaurants/issues"
+  },
+  "homepage": "https://github.com/IvoDD/restaurants#readme",
+  "dependencies": {
+    "body-parser": "^1.18.0",
+    "bootstrap": "^3.3.7",
+    "express": "^4.15.4",
+    "http": "0.0.0",
+    "jquery": "^3.2.1",
+    "mysql": "^2.14.1",
+    "socket.io": "^2.0.3",
+    "xlsx": "^0.11.3"
+  }
+}
