@@ -41,7 +41,7 @@ function runServer() {
     let http = require('http').Server(app);
     let io = require("socket.io")(http);
 
-    for (r of restaurants){
+    for (let r of restaurants){
         app.get('/' + r.url, (req, res) => {
             res.sendFile(__dirname + "/views/index.html");
         });
@@ -58,8 +58,8 @@ function runServer() {
         let ind = -1;
         socket.emit('restaurants', restaurants);
 
-        socket.on('ind', (i) => {
-            ind = i;
+        socket.on('url', (url) => {
+            let i = getInd(url);
             socket.emit('name', restaurants[i].name);
         });
     });
@@ -67,4 +67,12 @@ function runServer() {
     http.listen(8080, () => {
         console.log("Server started on 8080.");
     });
+}
+
+function getInd(url){
+    for (let i=0; i<restaurants.length; ++i){
+        if (restaurants[i].url == url){
+            return i;
+        }
+    }
 }

@@ -2,14 +2,7 @@ var socket = io();
 var url = window.location.href;
 url = trim(url);
 
-socket.on('restaurants', (restaurants) => {
-    for (let i=0; i<restaurants.length; ++i){
-        if (restaurants[i].url == url){
-            socket.emit('ind', i);
-            break;
-        }
-    }
-});
+socket.emit('url', url);
 
 socket.on('name', (name) => {
     changeName(name);
