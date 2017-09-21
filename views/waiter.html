@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="Ivo">
+
+    <title>Сервитьор</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+    <link href="template.css" rel="stylesheet">
+    <link href="login.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/bootstrap-treeview.min.css">
+  </head>
+
+  <body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a id="restaurant_name" class="navbar-brand" href="#">Сервитьор</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul id="nav" class="nav navbar-nav">
+            <li class="active" id="tables"><a href="#tables" onclick="changeTab('tables');">Маси</a></li>
+            <li id="orders"><a href="#orders" onclick="changeTab('orders');">Поръчки</a></li>
+            <li id="login"><a href="#login" onclick="changeTab('login');">Log in</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container" id="block_tables">
+    </div>
+    
+    <div class="container" id="block_orders" style="display:none;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Маса</th>
+            <th>Продукт</th>
+            <th>Статус</th>
+          </tr>
+        </thead>
+        <tbody id="orders_table_body">
+        </tbody>
+      </table>
+    </div>
+
+    <div class="container" id="block_login" style="display:none;">
+        <form class="form-signin" onsubmit="return login();">
+            <h2 class="form-signin-heading">Log in</h2>
+            <label for="inputUsername" class="sr-only">Username</label>
+            <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <input class="btn btn-lg btn-primary btn-block" type="submit" value="Sign in">
+        </form>
+    </div>
+    
+
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="objects.js"></script>
+    <script src="waiter.js"></script>
+    <script src="/js/bootstrap-treeview.min.js"></script>
+    <script>
+      
+
+
+  function convertToTree(item){
+    let node = {name: item.name};
+    if (item.description) node.text = `${item.name} (${item.description})`
+    else node.text = item.name;
+    if (item.children){
+      node.nodes = [];
+      node.selectable = false;
+      for (let child of item.children){
+        node.nodes.push(convertToTree(child));
+      }
+    }
+    else {
+      node.text += '<br>Цена: ' + item.price;
+      node.price = item.price;
+    }
+    return node;
+  }
+
+    </script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!--<script src="/js/ie10-viewport-bug-workaround.js"></script>-->
+  </body>
+</html>

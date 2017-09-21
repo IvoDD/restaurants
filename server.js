@@ -47,6 +47,12 @@ function runServer() {
         });
     }
     gets.handle(express, app);
+    app.get("/", (req, res) => {
+        res.send("Work in progress on home.html...");
+    });
+    app.get("/waiter", (req, res) => {
+        res.sendFile(__dirname + "/views/waiter.html");
+    });
     app.get("/objects.js", (req, res) => {
         res.sendFile(__dirname + "/objects.js");
     });
@@ -57,6 +63,7 @@ function runServer() {
     let orders = [];
     io.on('connection', (socket) => {
         let ind = -1;
+        let currentUser = objects.invalidUser;
 
         socket.on('url', (url) => {
             let i = getInd(url);
@@ -69,6 +76,14 @@ function runServer() {
             let order = {name: name};
             orders.push(order);
             io.emit('order', order);
+        });
+
+        //waiter
+        socket.on("waiter_login", (username, password) => {
+            database.login(connection, "waiter", username, password, (user) => {
+                currentUser = user;
+                socket.emit("login", user);
+            });
         });
     });
 
