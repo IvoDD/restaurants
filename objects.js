@@ -17,6 +17,18 @@ class Item {
     }
 }
 
+class User{
+    constructor (id, type, name="", username="", passhash="", salt=""){
+        this.id = id;
+        this.type = type; //type of ["invalid", "waiter", "client", "restaurant"]
+        this.name = name;
+        this.username = username;
+        this.passhash = passhash;
+        this.salt = salt;
+    }
+}
+const invalidUser = new User(-1, "invalid");
+
 if (typeof(module) !== 'undefined'){
-    module.exports = {'Restaurant': Restaurant, 'Item': Item};
+    module.exports = {'Restaurant': Restaurant, 'Item': Item, "User": User, "invalidUser": invalidUser};
 }
