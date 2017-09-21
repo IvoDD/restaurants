@@ -54,13 +54,21 @@ function runServer() {
         res.sendFile(__dirname + "/views/" + req.url);
     });
     
+    let orders = [];
     io.on('connection', (socket) => {
         let ind = -1;
-        socket.emit('restaurants', restaurants);
 
         socket.on('url', (url) => {
             let i = getInd(url);
-            socket.emit('name', restaurants[i].name);
+            if (i !== -1){
+                socket.emit('name', restaurants[i].name);
+                socket.emit('init', restaurants[i].menu, orders);
+            }
+        });
+        socket.on('order', (name) => {
+            let order = {name: name};
+            orders.push(order);
+            io.emit('order', order);
         });
     });
 
@@ -75,4 +83,5 @@ function getInd(url){
             return i;
         }
     }
+    return -1;
 }

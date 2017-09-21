@@ -10,16 +10,18 @@
 
     <title>Ресторант</title>
 
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
     <link href="template.css" rel="stylesheet">
     <link href="login.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="/css/bootstrap-treeview.min.css">
   </head>
 
   <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -32,23 +34,67 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul id="nav" class="nav navbar-nav">
-            <li class="active" id="m"><a href="#" onclick="">Меню</a></li>
+            <li class="active" id="menu"><a href="#menu" onclick="changeTab('menu');">Меню</a></li>
+            <li id="orders"><a href="#orders" onclick="changeTab('orders');">Поръчки</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </nav>
+    <div class="container" id="block_menu">
+      <div id="menu-tree"></div>
+    </div>
+    
+    <div class="container" id="block_orders" style="display:none;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Поръчано от</th>
+            <th>Продукт</th>
+            <th>Цена</th>
+          </tr>
+        </thead>
+        <tbody id="orders_table_body">
+          
+        </tbody>
+      </table>
+    </div>
+    
 
     
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/js/jquery.min.js"><\/script>')</script>
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
     <script src="socket.io/socket.io.js"></script>
     <script src="objects.js"></script>
     <script src="view.js"></script>
     <script src="connection.js"></script>
+    <script src="/js/bootstrap-treeview.min.js"></script>
+    <script>
+      
+
+
+  function convertToTree(item){
+    let node = {name: item.name};
+    if (item.description) node.text = `${item.name} (${item.description})`
+    else node.text = item.name;
+    if (item.children){
+      node.nodes = [];
+      node.selectable = false;
+      for (let child of item.children){
+        node.nodes.push(convertToTree(child));
+      }
+    }
+    else {
+      node.text += '<br>Цена: ' + item.price;
+      node.price = item.price;
+    }
+    return node;
+  }
+
+    </script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <!--<script src="/js/ie10-viewport-bug-workaround.js"></script>-->
   </body>

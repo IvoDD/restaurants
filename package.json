@@ -18,7 +18,10 @@
   "homepage": "https://github.com/IvoDD/restaurants#readme",
   "dependencies": {
     "body-parser": "^1.18.0",
-    "bootstrap": "^4.0.0-alpha.6",
+    "bootbox": "^4.4.0",
+    "bootstrap": "^3.3.7",
+    "bootstrap-treeview": "^1.2.0",
+    "bower": "^1.8.2",
     "express": "^4.15.4",
     "http": "0.0.0",
     "jquery": "^3.2.1",
